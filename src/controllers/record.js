@@ -1,24 +1,28 @@
 const mongoose = require("mongoose");
 const Goal = require("../models/goal");
+const Record = require("../models/record");
 
-const addGoal = async (req, res) => {
-  const { resource, percentage, companyId } = req.body;
+const addRecord = async (req, res) => {
+  const { year, month, cost, value } = req.body;
+  const goalId = mongoose.Types.ObjectId(req.params.id);
 
   const goalExists = await Goal.findOne({ resource });
-  if (goalExists) {
+  if (!goalExists) {
     return res.status(500).send({
-      message: "Resource already registered.",
+      message: "Goal doesn't exist.",
     });
   }
 
-  const newGoal = new Goal({
-    resource,
-    percentage,
-    companyId,
+  const newRecord = new Record({
+    year,
+    month,
+    cost,
+    value,
   });
 
   try {
-    await newGoal.save();
+    await newRecord.save();
+    // TODO: ADD TO GOAL
   } catch (error) {
     return res.status(500).send({
       error,
@@ -30,7 +34,7 @@ const addGoal = async (req, res) => {
   });
 };
 
-const getGoalById = async (req, res) => {
+const getRecordById = async (req, res) => {
   let id;
   try {
     id = mongoose.Types.ObjectId(req.params.id);
@@ -40,11 +44,11 @@ const getGoalById = async (req, res) => {
       message: "Provided id is not valid.",
     });
   }
-  const goal = await Goal.findById(id);
-  res.status(200).send(goal);
+  const record = await Record.findById(id);
+  res.status(200).send(record);
 };
 
-const deleteGoalById = async (req, res) => {
+const deleteRecordById = async (req, res) => {
   let id;
   try {
     id = mongoose.Types.ObjectId(req.params.id);
@@ -54,14 +58,14 @@ const deleteGoalById = async (req, res) => {
       message: "Provided id is not valid.",
     });
   }
-  await Goal.findByIdAndDelete(id);
+  await Record.findByIdAndDelete(id);
   res.status(200).send({
     message: "Ok",
   });
 };
 
-const updateGoalById = async (req, res) => {
-  const { resource, percentage, companyId } = req.body;
+const updateRecordById = async (req, res) => {
+  const { year, month, cost, value } = req.body;
 
   let id;
   try {
@@ -73,7 +77,7 @@ const updateGoalById = async (req, res) => {
     });
   }
   try {
-    await Goal.findByIdAndUpdate(resource, percentage, companyId);
+    await Record.findByIdAndUpdate(year, month, cost, value);
   } catch (error) {
     return res.status(500).send({
       error,
@@ -86,8 +90,8 @@ const updateGoalById = async (req, res) => {
 };
 
 module.exports = {
-  addGoal,
-  getGoalById,
-  deleteGoalById,
-  updateGoalById,
+  addRecord,
+  updateRecordById,
+  deleteRecordById,
+  getRecordById,
 };

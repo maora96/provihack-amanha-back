@@ -10,11 +10,13 @@ app.use(cors());
 const companyRoutes = require(`./src/routes/company`);
 const goalRoutes = require(`./src/routes/goal`);
 const fieldRoutes = require(`./src/routes/field`);
+const resourceRoutes = require(`./src/routes/resource`);
 
 // consuming routes
 app.use(`/company`, companyRoutes);
 app.use(`/goal`, goalRoutes);
 app.use(`/field`, fieldRoutes);
+app.use(`/resource`, fieldRoutes);
 
 // server
 app.listen(8000, () => console.log(`listening on port 8000`));
