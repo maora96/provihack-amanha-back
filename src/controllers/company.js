@@ -94,6 +94,7 @@ const updateCompanyById = async (req, res) => {
   }
   try {
     await Company.findByIdAndUpdate(
+      id,
       name,
       cnpj,
       employees,

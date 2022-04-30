@@ -73,7 +73,7 @@ const updateGoalById = async (req, res) => {
     });
   }
   try {
-    await Goal.findByIdAndUpdate(resource, percentage, companyId);
+    await Goal.findByIdAndUpdate(id, resource, percentage, companyId);
   } catch (error) {
     return res.status(500).send({
       error,

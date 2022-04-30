@@ -3,7 +3,7 @@ const Goal = require("../models/goal");
 const Record = require("../models/record");
 
 const addRecord = async (req, res) => {
-  const { year, month, cost, value } = req.body;
+  const { year, month, cost, value, companyId } = req.body;
   const goalId = mongoose.Types.ObjectId(req.params.id);
 
   const goalExists = await Goal.findOne({ resource });
@@ -18,6 +18,8 @@ const addRecord = async (req, res) => {
     month,
     cost,
     value,
+    goalId,
+    companyId,
   });
 
   try {
@@ -37,7 +39,7 @@ const addRecord = async (req, res) => {
 const getRecordById = async (req, res) => {
   let id;
   try {
-    id = mongoose.Types.ObjectId(req.params.id);
+    id = mongoose.Types.ObjectId(req.params.recordid);
   } catch (error) {
     return res.status(500).send({
       error,
@@ -51,7 +53,7 @@ const getRecordById = async (req, res) => {
 const deleteRecordById = async (req, res) => {
   let id;
   try {
-    id = mongoose.Types.ObjectId(req.params.id);
+    id = mongoose.Types.ObjectId(req.params.recordid);
   } catch (error) {
     return res.status(500).send({
       error,
@@ -69,7 +71,7 @@ const updateRecordById = async (req, res) => {
 
   let id;
   try {
-    id = mongoose.Types.ObjectId(req.params.id);
+    id = mongoose.Types.ObjectId(req.params.recordid);
   } catch (error) {
     return res.status(500).send({
       error,
@@ -77,7 +79,7 @@ const updateRecordById = async (req, res) => {
     });
   }
   try {
-    await Record.findByIdAndUpdate(year, month, cost, value);
+    await Record.findByIdAndUpdate(id, year, month, cost, value);
   } catch (error) {
     return res.status(500).send({
       error,

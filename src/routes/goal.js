@@ -27,8 +27,8 @@ router.get(`/:id`, getGoalById); // get goal info
 // record routes
 
 router.post(`/record`, addRecord); // add goal
-router.put(`/record/:id`, auth, updateRecordById); // edit goal
-router.delete(`/record/:id`, auth, deleteRecordById); // delete goal
-router.get(`/record/:id`, getRecordById); // get goal info
+router.put(`/record/:recordid`, auth, updateRecordById); // edit goal
+router.delete(`/record/:recordid`, auth, deleteRecordById); // delete goal
+router.get(`/record/:recordid`, getRecordById); // get goal info
 
 module.exports = router;
